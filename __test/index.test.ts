@@ -14,6 +14,27 @@ describe("snakify", () => {
     ]);
   });
 
+  it('leaves dates and regexp', () => {
+    const regExp = new RegExp(/.*/)
+    const date = new Date(0)
+
+    expect(snakify({ 
+      aKey: 1, 
+      b: {
+        numbErty: 123,
+        datErty: date,
+        regexpErty: regExp
+      } 
+    })).toEqual({ 
+      a_key: 1, 
+      b: { 
+        numb_erty: 123, 
+        dat_erty: date,
+        regexp_erty: regExp 
+      } 
+    })
+  })
+
   it("object", () => {
     expect(snakify({ aKey: 1, bKey: 2 })).toEqual({ a_key: 1, b_key: 2 });
   });

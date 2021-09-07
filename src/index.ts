@@ -1,5 +1,6 @@
-import { types } from "util";
 import snakeCase from "lodash.snakecase";
+import isDate from 'lodash.isdate'
+import isRegExp from 'lodash.isregexp'
 
 /**
  * @see https://newbedev.com/typescript-convert-generic-object-from-snake-to-camel-case
@@ -20,7 +21,7 @@ export type Snakify<T> = {
 
 function walk(obj): any {
   if (!obj || typeof obj !== "object") return obj;
-  if (types.isDate(obj) || types.isRegExp(obj)) return obj;
+  if (isDate(obj) || isRegExp(obj)) return obj;
   if (Array.isArray(obj)) return obj.map(walk);
 
   return Object.keys(obj).reduce((res, key) => {
