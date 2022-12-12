@@ -1,6 +1,6 @@
-# camelize-ts
+# snakify-ts
 
-[![Build Status](https://travis-ci.com/kbrabrand/snakify-ts.svg?branch=master)](https://travis-ci.com/kbrabrand/snakify-ts)
+[![CI](https://github.com/kbrabrand/snakify-ts/actions/workflows/main.yml/badge.svg)](https://github.com/kbrabrand/snakify-ts/actions/workflows/main.yml)
 
 A typescript typed snake_case function that recursively snake cases a camel cased object structure. It snake cases a simple string too, if you need that.
 
