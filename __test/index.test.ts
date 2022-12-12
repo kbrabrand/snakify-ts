@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-import snakify from "../src";
+import snakify, { Snakify } from "../src";
 
 describe("snakify", () => {
   it("strings", () => {
@@ -84,4 +84,28 @@ describe("snakify", () => {
         .a_deeeeeply_nested_value
     ).toEqual("foo");
   });
+
+  it('nested optional properties', () => {
+    type T = {
+      oneA?: string;
+      oneB?: {
+        twoA?: string;
+        twoB?: {
+          threeA?: string;
+        };
+      };
+    }
+
+    const t: Snakify<T> = {
+      one_a: "string",
+      one_b: {
+        two_a: "string",
+        two_b: {
+          three_a: "c",
+        },
+      },
+    };
+
+    expect(t.one_b?.two_b?.three_a).toBe("c")
+  })
 });
