@@ -4,6 +4,8 @@
 
 A typescript typed snake_case function that recursively snake cases a camel cased object structure. It snake cases a simple string too, if you need that.
 
+`snakify-ts` is [`camelize-ts`](https://www.npmjs.com/package/camelize-ts)’ twin 👯.
+
 ## Why do this again?
 
 This has obviously been done before, and the "new" thing with this pacakge is not snake casing itself but the fact that it is a generic that, given the form of the input data structure, will provide you with typing for the returned object structure so that it fits with other types.
@@ -27,12 +29,7 @@ function postIt({
 }) { return `${first_name} ${last_name}` }
 
 // snake case stuff before posting to API
-const snakifiedUser = snakify<{
-  id: number;
-  firstName: string;
-  lastName: string;
-  roles: string[];
-}>({
+const snakifiedUser = snakify({
   id: 1,
   firstName: 'Grim',
   lastName: 'Reaper',
@@ -57,6 +54,38 @@ output:
 }
 
 Grim Reaper
+```
+
+### Shallow option
+By default snakify will traverse to the bottom of the object/array structure you pass. If you want to perform a shallow snakify, touching only the top level of the value you can pass true for the `shallow` option (second argument).
+
+### Type inference
+You don't need to pass a type to `snakify` since it uses argument inference to find the type to convert. But if you need to, you can pass a type like this:
+
+```ts
+snakify<
+  // type of value to snakify
+  { first_name: string },
+
+  // whether or not to perform shallow snakification
+  true
+>(
+  // value to snakify, type must match the specified type
+  value,
+
+  // shallow, must match what's set as the second type argument above (after the type)
+  true
+)
+```
+
+#### Type conversion
+If you need to convert just a type, you can use the `Snakify` generic type to do this:
+
+```ts
+import { Snakify } from 'snakify-ts'
+
+type MyCamelPerson = { firstName: string }
+type MySnakePerson = Snakify<MyCamelPerson>
 ```
 
 ## Running tests
