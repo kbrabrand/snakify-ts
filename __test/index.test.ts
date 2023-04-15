@@ -109,6 +109,10 @@ describe("snakify", () => {
 
       expect(t.one_b?.twoB?.threeA).toBe("c")
     })
+
+    it('camelizes arrays', () => {
+      expect(snakify([{fooBar:{barFoo:123}}], true)[0].foo_bar.barFoo).toBe(123)
+    })
   })
 
   describe('deep', () => {
@@ -216,6 +220,10 @@ describe("snakify", () => {
       };
 
       expect(t.one_b?.two_b?.three_a).toBe("c")
+    })
+
+    it('camelizes arrays', () => {
+      expect(snakify([{fooBar:{barFoo:123}}])[0].foo_bar.bar_foo).toBe(123)
     })
   })
 });

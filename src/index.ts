@@ -7,22 +7,31 @@ type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
   ? `${T extends Capitalize<T> ? "_" : ""}${Lowercase<T>}${SnakeCase<U>}`
   : S;
 
-export type Snakify<T, S = false> = {
+type SnakifyObject<T, S = false> = {
   [K in keyof T as SnakeCase<string & K>]: T[K] extends Array<infer U>
     ? U extends ({} | undefined)
-      ? Array<Snakify<U>>
+      ? Array<SnakifyObject<U>>
       : T[K]
     : T[K] extends ({} | undefined)
     ? S extends true
       ? T[K]
-      : Snakify<T[K]>
+      : SnakifyObject<T[K]>
     : T[K];
 };
+
+export type Snakify<T, S = false> =
+  T extends Array<(infer U)>
+    ? Array<SnakifyObject<U, S>>
+    : SnakifyObject<T, S>;
 
 function walk(obj, shallow = false): any {
   if (!obj || typeof obj !== "object") return obj;
   if (obj instanceof Date || obj instanceof RegExp) return obj;
-  if (Array.isArray(obj)) return obj.map(v => shallow ? v : walk(v));
+  if (Array.isArray(obj)) return obj.map(v => {
+    if (!shallow) { return walk(v) }
+    if (typeof v === 'object') return walk(v, shallow)
+    return v
+  })
 
   return Object.keys(obj).reduce((res, key) => {
     const camel = snakeCase(key);
