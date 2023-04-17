@@ -8,15 +8,18 @@ type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
   : S;
 
 type SnakifyObject<T, S = false> = {
-  [K in keyof T as SnakeCase<string & K>]: T[K] extends Array<infer U>
-    ? U extends ({} | undefined)
-      ? Array<SnakifyObject<U>>
-      : T[K]
-    : T[K] extends ({} | undefined)
-    ? S extends true
-      ? T[K]
-      : SnakifyObject<T[K]>
-    : T[K];
+  [K in keyof T as SnakeCase<string & K>]:
+    T[K] extends Date ? T[K] :
+      T[K] extends RegExp ? T[K] :
+        T[K] extends Array<infer U>
+          ? U extends ({} | undefined)
+            ? Array<SnakifyObject<U>>
+            : T[K]
+          : T[K] extends ({} | undefined)
+          ? S extends true
+            ? T[K]
+            : SnakifyObject<T[K]>
+          : T[K];
 };
 
 export type Snakify<T, S = false> =
