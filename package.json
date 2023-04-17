@@ -1,6 +1,6 @@
 {
   "name": "snakify-ts",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Recursive snake casing of object property names with proper typing",
   "type": "module",
   "main": "./dist/index.js",
