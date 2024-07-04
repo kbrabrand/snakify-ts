@@ -53,6 +53,6 @@ export default function snakify<T, S extends boolean = false>(
    * If true, only the top level keys of the obj will be camel cased
    */
   shallow?: S
-): T extends String ? string : Snakify<T, S> {
+): T extends string ? SnakeCase<T> : Snakify<T, S> {
   return typeof obj === "string" ? snakeCase(obj) : walk(obj, shallow);
 }
